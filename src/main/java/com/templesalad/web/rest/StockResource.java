@@ -4,16 +4,20 @@ import com.codahale.metrics.annotation.Timed;
 import com.templesalad.domain.Stock;
 
 import com.templesalad.repository.StockRepository;
+import com.templesalad.service.StockService;
 import com.templesalad.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +31,14 @@ public class StockResource {
     private final Logger log = LoggerFactory.getLogger(StockResource.class);
 
     private static final String ENTITY_NAME = "stock";
-        
+
     private final StockRepository stockRepository;
 
-    public StockResource(StockRepository stockRepository) {
+    private final StockService stockService;
+
+    public StockResource(StockRepository stockRepository, StockService stockService) {
         this.stockRepository = stockRepository;
+        this.stockService = stockService;
     }
 
     /**
@@ -85,7 +92,14 @@ public class StockResource {
     @Timed
     public List<Stock> getAllStocks() {
         log.debug("REST request to get all Stocks");
-        List<Stock> stocks = stockRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+        List<Stock> stocks = new ArrayList<>();
+        if( isAdmin ) {
+            stocks = stockRepository.findAll();
+        } else  {
+            return stockService.findStocskByCurrentUser();
+        }
         return stocks;
     }
 
