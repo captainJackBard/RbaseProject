@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span>Invoice</span> {{vm.invoice.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Total</span></dt>
+        <dd>
+            <span>{{vm.invoice.total}}</span>
+        </dd>
+        <dt><span>Paid</span></dt>
+        <dd>
+            <span>{{vm.invoice.paid}}</span>
+        </dd>
+        <dt><span>Address</span></dt>
+        <dd>
+            <span>{{vm.invoice.address}}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+            <span>{{vm.invoice.name}}</span>
+        </dd>
+        <dt><span>Battery</span></dt>
+        <dd>
+            <a ui-sref="battery-detail({id:vm.invoice.battery.id})">{{vm.invoice.battery.name}}</a>
+        </dd>
+        <dt><span>Branch</span></dt>
+        <dd>
+            <a ui-sref="branch-detail({id:vm.invoice.branch.id})">{{vm.invoice.branch.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="invoice-detail.edit({id:vm.invoice.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

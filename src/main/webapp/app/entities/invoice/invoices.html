@@ -1,0 +1,70 @@
+<div>
+    <h2>Invoices</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="invoice.new" has-authority="ROLE_ADMIN">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Invoice
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Total</span></th>
+                    <th><span>Paid</span></th>
+                    <th><span>Address</span></th>
+                    <th><span>Name</span></th>
+                    <th><span>Battery</span></th>
+                    <th><span>Branch</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="invoice in vm.invoices track by invoice.id">
+                    <td><a ui-sref="invoice-detail({id:invoice.id})">{{invoice.id}}</a></td>
+                    <td>{{invoice.total}}</td>
+                    <td>{{invoice.paid}}</td>
+                    <td>{{invoice.address}}</td>
+                    <td>{{invoice.name}}</td>
+                    <td>
+                        <a ui-sref="battery-detail({id:invoice.battery.id})">{{invoice.battery.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="branch-detail({id:invoice.branch.id})">{{invoice.branch.name}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="invoice-detail({id:invoice.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="invoice.edit({id:invoice.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="invoice.delete({id:invoice.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

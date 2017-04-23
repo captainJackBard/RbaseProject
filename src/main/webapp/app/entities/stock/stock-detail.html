@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span>Stock</span> {{vm.stock.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Quantity</span></dt>
+        <dd>
+            <span>{{vm.stock.quantity}}</span>
+        </dd>
+        <dt><span>Stock Date</span></dt>
+        <dd>
+            <span>{{vm.stock.stockDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Branch</span></dt>
+        <dd>
+            <a ui-sref="branch-detail({id:vm.stock.branch.id})">{{vm.stock.branch.name}}</a>
+        </dd>
+        <dt><span>Battery</span></dt>
+        <dd>
+            <a ui-sref="battery-detail({id:vm.stock.battery.id})">{{vm.stock.battery.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="stock-detail.edit({id:vm.stock.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>
