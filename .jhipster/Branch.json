@@ -12,6 +12,12 @@
             "relationshipName": "user",
             "otherEntityName": "user",
             "otherEntityField": "email"
+        },
+        {
+            "relationshipName": "invoice",
+            "otherEntityName": "invoice",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "branch"
         }
     ],
     "fields": [
@@ -38,8 +44,8 @@
         }
     ],
     "changelogDate": "20170423114245",
-    "entityTableName": "branch",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "branch",
+    "pagination": "no"
 }

@@ -5,9 +5,9 @@
         .module('bubbleBattStoreApp')
         .controller('BranchDialogController', BranchDialogController);
 
-    BranchDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Branch', 'Stock', 'User'];
+    BranchDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Branch', 'Stock', 'User', 'Invoice'];
 
-    function BranchDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Branch, Stock, User) {
+    function BranchDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Branch, Stock, User, Invoice) {
         var vm = this;
 
         vm.branch = entity;
@@ -15,6 +15,7 @@
         vm.save = save;
         vm.stocks = Stock.query();
         vm.users = User.query();
+        vm.invoices = Invoice.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

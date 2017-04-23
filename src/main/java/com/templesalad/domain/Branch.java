@@ -42,6 +42,10 @@ public class Branch implements Serializable {
     @ManyToOne
     private User user;
 
+    @OneToMany(mappedBy = "branch")
+    @JsonIgnore
+    private Set<Invoice> invoices = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -125,6 +129,31 @@ public class Branch implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public Branch invoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+        return this;
+    }
+
+    public Branch addInvoice(Invoice invoice) {
+        this.invoices.add(invoice);
+        invoice.setBranch(this);
+        return this;
+    }
+
+    public Branch removeInvoice(Invoice invoice) {
+        this.invoices.remove(invoice);
+        invoice.setBranch(null);
+        return this;
+    }
+
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
     }
 
     @Override

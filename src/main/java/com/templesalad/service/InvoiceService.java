@@ -32,8 +32,8 @@ public class InvoiceService {
         List<Invoice> invoices = new ArrayList<>();
         List<Branch> branches = branchRepository.findByUserIsCurrentUser();
         for (Branch branch : branches) {
-//            invoices.addAll()
+            invoices.addAll(branch.getInvoices());
         }
-        return null;
+        return invoices;
     }
 }

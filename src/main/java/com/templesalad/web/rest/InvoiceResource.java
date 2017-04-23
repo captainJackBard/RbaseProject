@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.templesalad.domain.Invoice;
 
 import com.templesalad.repository.InvoiceRepository;
+import com.templesalad.service.InvoiceService;
 import com.templesalad.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -32,8 +33,11 @@ public class InvoiceResource {
 
     private final InvoiceRepository invoiceRepository;
 
-    public InvoiceResource(InvoiceRepository invoiceRepository) {
+    private final InvoiceService invoiceService;
+
+    public InvoiceResource(InvoiceRepository invoiceRepository, InvoiceService invoiceService) {
         this.invoiceRepository = invoiceRepository;
+        this.invoiceService = invoiceService;
     }
 
     /**
@@ -93,6 +97,8 @@ public class InvoiceResource {
         List<Invoice> invoices = new ArrayList<>();
         if ( isAdmin ) {
             invoices = invoiceRepository.findAll();
+        } else {
+            return invoiceService.findInvoiceByCurrentUser();
         }
 
         return invoices;

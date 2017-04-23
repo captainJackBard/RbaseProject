@@ -5,9 +5,9 @@
         .module('bubbleBattStoreApp')
         .controller('BranchDetailController', BranchDetailController);
 
-    BranchDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Branch', 'Stock', 'User'];
+    BranchDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Branch', 'Stock', 'User', 'Invoice'];
 
-    function BranchDetailController($scope, $rootScope, $stateParams, previousState, entity, Branch, Stock, User) {
+    function BranchDetailController($scope, $rootScope, $stateParams, previousState, entity, Branch, Stock, User, Invoice) {
         var vm = this;
 
         vm.branch = entity;
