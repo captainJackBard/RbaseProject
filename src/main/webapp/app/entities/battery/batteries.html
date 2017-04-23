@@ -50,13 +50,13 @@
                             </button>
                             <button type="submit"
                                     ui-sref="battery.edit({id:battery.id})"
-                                    class="btn btn-primary btn-sm">
+                                    class="btn btn-primary btn-sm" has-authority="ROLE_ADMIN">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                             <button type="submit"
                                     ui-sref="battery.delete({id:battery.id})"
-                                    class="btn btn-danger btn-sm">
+                                    class="btn btn-danger btn-sm" has-authority="ROLE_ADMIN">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>

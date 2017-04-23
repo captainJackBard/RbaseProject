@@ -11,9 +11,9 @@
         $stateProvider
         .state('battery', {
             parent: 'entity',
-            url: '/battery',
+            url: '/',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: [],
                 pageTitle: 'Batteries'
             },
             views: {
