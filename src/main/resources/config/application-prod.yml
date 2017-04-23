@@ -34,16 +34,16 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
     mail:
-        host: smtp.gmail.com
+        host: smtp.mail.yahoo.com
         port: 587
-        username: fcktardjoe@gmail.com
-        password: Polkiasad12
+        username: bubblebatt.shop@yahoo.com
+        password: RbaseIsHartHart
         protocol: smtp
         tls: true
         properties.mail.smtp:
             auth: true
             starttls.enable: true
-            ssl.trust: smtp.gmail.com
+            ssl.trust: smtp.mail.yahoo.com
     thymeleaf:
         cache: true
 
@@ -90,7 +90,7 @@ jhipster:
             # security key (this key should be unique for your application, and kept secret)
             key: 7c852ca09ba662e0bed7e5e82a4d966954e3d77b
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: BubbleBattStore@localhost
+        from: bubblebatt.shop@yahoo.com
         base-url: https://bubble-batt-store.herokuapp.com # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
