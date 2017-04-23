@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import com.templesalad.domain.enumeration.Vehicle;
@@ -47,9 +49,9 @@ public class Battery implements Serializable {
     @Column(name = "image_content_type")
     private String imageContentType;
 
-    @OneToOne(mappedBy = "battery")
+    @OneToMany(mappedBy = "battery")
     @JsonIgnore
-    private Stock stock;
+    private Set<Stock> stocks = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -137,17 +139,29 @@ public class Battery implements Serializable {
         this.imageContentType = imageContentType;
     }
 
-    public Stock getStock() {
-        return stock;
+    public Set<Stock> getStocks() {
+        return stocks;
     }
 
-    public Battery stock(Stock stock) {
-        this.stock = stock;
+    public Battery stocks(Set<Stock> stocks) {
+        this.stocks = stocks;
         return this;
     }
 
-    public void setStock(Stock stock) {
-        this.stock = stock;
+    public Battery addStock(Stock stock) {
+        this.stocks.add(stock);
+        stock.setBattery(this);
+        return this;
+    }
+
+    public Battery removeStock(Stock stock) {
+        this.stocks.remove(stock);
+        stock.setBattery(null);
+        return this;
+    }
+
+    public void setStocks(Set<Stock> stocks) {
+        this.stocks = stocks;
     }
 
     @Override

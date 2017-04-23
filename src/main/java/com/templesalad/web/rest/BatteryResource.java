@@ -29,7 +29,7 @@ public class BatteryResource {
     private final Logger log = LoggerFactory.getLogger(BatteryResource.class);
 
     private static final String ENTITY_NAME = "battery";
-        
+
     private final BatteryRepository batteryRepository;
 
     public BatteryResource(BatteryRepository batteryRepository) {
@@ -91,7 +91,7 @@ public class BatteryResource {
             log.debug("REST request to get all Batterys where stock is null");
             return StreamSupport
                 .stream(batteryRepository.findAll().spliterator(), false)
-                .filter(battery -> battery.getStock() == null)
+                .filter(battery -> battery.getStocks() == null)
                 .collect(Collectors.toList());
         }
         log.debug("REST request to get all Batteries");

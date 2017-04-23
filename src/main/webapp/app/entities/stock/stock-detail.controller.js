@@ -5,9 +5,9 @@
         .module('bubbleBattStoreApp')
         .controller('StockDetailController', StockDetailController);
 
-    StockDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Stock', 'Battery', 'Branch'];
+    StockDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Stock', 'Branch', 'Battery'];
 
-    function StockDetailController($scope, $rootScope, $stateParams, previousState, entity, Stock, Battery, Branch) {
+    function StockDetailController($scope, $rootScope, $stateParams, previousState, entity, Stock, Branch, Battery) {
         var vm = this;
 
         vm.stock = entity;

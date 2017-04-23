@@ -12,13 +12,13 @@
         <dd>
             <span>{{vm.stock.stockDate | date:'mediumDate'}}</span>
         </dd>
-        <dt><span>Battery</span></dt>
-        <dd>
-            <a ui-sref="battery-detail({id:vm.stock.battery.id})">{{vm.stock.battery.name}}</a>
-        </dd>
         <dt><span>Branch</span></dt>
         <dd>
             <a ui-sref="branch-detail({id:vm.stock.branch.id})">{{vm.stock.branch.name}}</a>
+        </dd>
+        <dt><span>Battery</span></dt>
+        <dd>
+            <a ui-sref="battery-detail({id:vm.stock.battery.id})">{{vm.stock.battery.name}}</a>
         </dd>
     </dl>
 

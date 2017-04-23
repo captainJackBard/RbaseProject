@@ -2,10 +2,9 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
             "relationshipName": "stock",
             "otherEntityName": "stock",
-            "ownerSide": false,
+            "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "battery"
         }
     ],

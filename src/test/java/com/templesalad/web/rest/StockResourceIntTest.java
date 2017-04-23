@@ -3,6 +3,7 @@ package com.templesalad.web.rest;
 import com.templesalad.BubbleBattStoreApp;
 
 import com.templesalad.domain.Stock;
+import com.templesalad.domain.Battery;
 import com.templesalad.repository.StockRepository;
 import com.templesalad.web.rest.errors.ExceptionTranslator;
 
@@ -84,6 +85,11 @@ public class StockResourceIntTest {
         Stock stock = new Stock()
             .quantity(DEFAULT_QUANTITY)
             .stockDate(DEFAULT_STOCK_DATE);
+        // Add required entity
+        Battery battery = BatteryResourceIntTest.createEntity(em);
+        em.persist(battery);
+        em.flush();
+        stock.setBattery(battery);
         return stock;
     }
 

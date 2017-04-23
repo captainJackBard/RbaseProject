@@ -2,17 +2,18 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "battery",
-            "otherEntityName": "battery",
-            "otherEntityField": "name",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "stock"
-        },
-        {
             "relationshipType": "many-to-one",
             "relationshipName": "branch",
             "otherEntityName": "branch",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "battery",
+            "otherEntityName": "battery",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
             "otherEntityField": "name"
         }
     ],
@@ -33,8 +34,8 @@
         }
     ],
     "changelogDate": "20170423114247",
-    "entityTableName": "stock",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "stock",
+    "pagination": "no"
 }

@@ -47,16 +47,21 @@
         </div>
 
         <div class="form-group">
-            <label for="field_battery">Battery</label>
-            <select class="form-control" id="field_battery" name="battery" ng-model="vm.stock.battery" ng-options="battery as battery.name for battery in vm.batteries | orderBy:'id' track by battery.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
             <label for="field_branch">Branch</label>
             <select class="form-control" id="field_branch" name="branch" ng-model="vm.stock.branch" ng-options="branch as branch.name for branch in vm.branches track by branch.id">
                 <option value=""></option>
             </select>
+        </div>
+        <div class="form-group">
+            <label for="field_battery">Battery</label>
+            <select class="form-control" id="field_battery" name="battery" ng-model="vm.stock.battery" ng-options="battery as battery.name for battery in vm.batteries track by battery.id" required>
+            </select>
+        </div>
+        <div ng-show="editForm.battery.$invalid">
+            <p class="help-block"
+                ng-show="editForm.battery.$error.required">
+                This field is required.
+            </p>
         </div>
     </div>
     <div class="modal-footer">

@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="stock.new" has-authority="ROLE_ADMIN">
+                <button class="btn btn-primary" ui-sref="stock.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Stock
@@ -21,8 +21,8 @@
                     <th><span>ID</span></th>
                     <th><span>Quantity</span></th>
                     <th><span>Stock Date</span></th>
-                    <th><span>Battery</span></th>
                     <th><span>Branch</span></th>
+                    <th><span>Battery</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,10 +32,10 @@
                     <td>{{stock.quantity}}</td>
                         <td>{{stock.stockDate | date:'mediumDate'}}</td>
                     <td>
-                        <a ui-sref="battery-detail({id:stock.battery.id})">{{stock.battery.name}}</a>
+                        <a ui-sref="branch-detail({id:stock.branch.id})">{{stock.branch.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="branch-detail({id:stock.branch.id})">{{stock.branch.name}}</a>
+                        <a ui-sref="battery-detail({id:stock.battery.id})">{{stock.battery.name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

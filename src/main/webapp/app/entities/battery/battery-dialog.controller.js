@@ -5,9 +5,9 @@
         .module('bubbleBattStoreApp')
         .controller('BatteryDialogController', BatteryDialogController);
 
-    BatteryDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Battery', 'Stock'];
+    BatteryDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Battery'];
 
-    function BatteryDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Battery, Stock) {
+    function BatteryDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Battery) {
         var vm = this;
 
         vm.battery = entity;
@@ -15,7 +15,6 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.stocks = Stock.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

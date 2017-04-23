@@ -29,12 +29,12 @@ public class Stock implements Serializable {
     @Column(name = "stock_date", nullable = false)
     private LocalDate stockDate;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Battery battery;
-
     @ManyToOne
     private Branch branch;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    private Battery battery;
 
     public Long getId() {
         return id;
@@ -70,19 +70,6 @@ public class Stock implements Serializable {
         this.stockDate = stockDate;
     }
 
-    public Battery getBattery() {
-        return battery;
-    }
-
-    public Stock battery(Battery battery) {
-        this.battery = battery;
-        return this;
-    }
-
-    public void setBattery(Battery battery) {
-        this.battery = battery;
-    }
-
     public Branch getBranch() {
         return branch;
     }
@@ -94,6 +81,19 @@ public class Stock implements Serializable {
 
     public void setBranch(Branch branch) {
         this.branch = branch;
+    }
+
+    public Battery getBattery() {
+        return battery;
+    }
+
+    public Stock battery(Battery battery) {
+        this.battery = battery;
+        return this;
+    }
+
+    public void setBattery(Battery battery) {
+        this.battery = battery;
     }
 
     @Override
