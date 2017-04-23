@@ -38,4 +38,10 @@ public class StockService {
         }
         return stocks;
     }
+
+    public Stock reduceStock(Stock stock) {
+        stock.setQuantity(stock.getQuantity() -1);
+        stockRepository.save(stock);
+        return stock;
+    }
 }

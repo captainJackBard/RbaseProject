@@ -97,6 +97,8 @@
                             return {
                                 total: null,
                                 paid: false,
+                                address: null,
+                                name: null,
                                 id: null
                             };
                         }

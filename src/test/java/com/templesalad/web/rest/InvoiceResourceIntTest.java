@@ -43,6 +43,12 @@ public class InvoiceResourceIntTest {
     private static final Boolean DEFAULT_PAID = false;
     private static final Boolean UPDATED_PAID = true;
 
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     @Autowired
     private InvoiceRepository invoiceRepository;
 
@@ -81,7 +87,9 @@ public class InvoiceResourceIntTest {
     public static Invoice createEntity(EntityManager em) {
         Invoice invoice = new Invoice()
             .total(DEFAULT_TOTAL)
-            .paid(DEFAULT_PAID);
+            .paid(DEFAULT_PAID)
+            .address(DEFAULT_ADDRESS)
+            .name(DEFAULT_NAME);
         return invoice;
     }
 
@@ -107,6 +115,8 @@ public class InvoiceResourceIntTest {
         Invoice testInvoice = invoiceList.get(invoiceList.size() - 1);
         assertThat(testInvoice.getTotal()).isEqualTo(DEFAULT_TOTAL);
         assertThat(testInvoice.isPaid()).isEqualTo(DEFAULT_PAID);
+        assertThat(testInvoice.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testInvoice.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -148,6 +158,42 @@ public class InvoiceResourceIntTest {
 
     @Test
     @Transactional
+    public void checkAddressIsRequired() throws Exception {
+        int databaseSizeBeforeTest = invoiceRepository.findAll().size();
+        // set the field null
+        invoice.setAddress(null);
+
+        // Create the Invoice, which fails.
+
+        restInvoiceMockMvc.perform(post("/api/invoices")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(invoice)))
+            .andExpect(status().isBadRequest());
+
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        assertThat(invoiceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = invoiceRepository.findAll().size();
+        // set the field null
+        invoice.setName(null);
+
+        // Create the Invoice, which fails.
+
+        restInvoiceMockMvc.perform(post("/api/invoices")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(invoice)))
+            .andExpect(status().isBadRequest());
+
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        assertThat(invoiceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllInvoices() throws Exception {
         // Initialize the database
         invoiceRepository.saveAndFlush(invoice);
@@ -158,7 +204,9 @@ public class InvoiceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(invoice.getId().intValue())))
             .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.doubleValue())))
-            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())));
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -173,7 +221,9 @@ public class InvoiceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(invoice.getId().intValue()))
             .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL.doubleValue()))
-            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()));
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -195,7 +245,9 @@ public class InvoiceResourceIntTest {
         Invoice updatedInvoice = invoiceRepository.findOne(invoice.getId());
         updatedInvoice
             .total(UPDATED_TOTAL)
-            .paid(UPDATED_PAID);
+            .paid(UPDATED_PAID)
+            .address(UPDATED_ADDRESS)
+            .name(UPDATED_NAME);
 
         restInvoiceMockMvc.perform(put("/api/invoices")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -208,6 +260,8 @@ public class InvoiceResourceIntTest {
         Invoice testInvoice = invoiceList.get(invoiceList.size() - 1);
         assertThat(testInvoice.getTotal()).isEqualTo(UPDATED_TOTAL);
         assertThat(testInvoice.isPaid()).isEqualTo(UPDATED_PAID);
+        assertThat(testInvoice.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testInvoice.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test

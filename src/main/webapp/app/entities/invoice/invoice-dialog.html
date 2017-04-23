@@ -30,13 +30,31 @@
                 </p>
             </div>
         </div>
-
         <div class="form-group">
-            <label for="field_location">Location</label>
-            <select class="form-control" id="field_location" name="location" ng-model="vm.invoice.location" ng-options="location as location.id for location in vm.locations | orderBy:'id' track by location.id">
-                <option value=""></option>
-            </select>
+            <label class="control-label" for="field_address">Address</label>
+            <input type="text" class="form-control" name="address" id="field_address"
+                    ng-model="vm.invoice.address"
+                    required/>
+            <div ng-show="editForm.address.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.address.$error.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="vm.invoice.name"
+                    required/>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="field_battery">Battery</label>
             <select class="form-control" id="field_battery" name="battery" ng-model="vm.invoice.battery" ng-options="battery as battery.name for battery in vm.batteries track by battery.id">

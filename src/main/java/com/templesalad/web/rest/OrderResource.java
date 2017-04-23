@@ -6,16 +6,16 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.templesalad.Haversine;
-import com.templesalad.domain.Battery;
-import com.templesalad.domain.Branch;
-import com.templesalad.domain.Invoice;
-import com.templesalad.domain.Location;
+import com.templesalad.domain.*;
 import com.templesalad.domain.enumeration.Vehicle;
 import com.templesalad.repository.BatteryRepository;
 import com.templesalad.repository.BranchRepository;
 import com.templesalad.repository.InvoiceRepository;
 import com.templesalad.repository.LocationRepository;
 import com.templesalad.service.BatteryService;
+import com.templesalad.service.BranchService;
+import com.templesalad.service.StockService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,12 +49,18 @@ public class OrderResource {
 
     private final BranchRepository branchRepository;
 
-    public OrderResource(InvoiceRepository invoiceRepository, LocationRepository locationRepository, BatteryRepository batteryRepository, BatteryService batteryService, BranchRepository branchRepository) {
+    private final StockService stockService;
+
+    private final BranchService branchService;
+
+    public OrderResource(InvoiceRepository invoiceRepository, LocationRepository locationRepository, BatteryRepository batteryRepository, BatteryService batteryService, BranchRepository branchRepository, StockService stockService, BranchService branchService) {
         this.invoiceRepository = invoiceRepository;
         this.locationRepository = locationRepository;
         this.batteryRepository = batteryRepository;
         this.batteryService = batteryService;
         this.branchRepository = branchRepository;
+        this.stockService = stockService;
+        this.branchService = branchService;
     }
 
     @GetMapping("/smshook")
@@ -64,29 +70,37 @@ public class OrderResource {
                           @RequestParam String to) throws InterruptedException, ApiException, IOException {
         String[] order = keyword.split("/");
 
+        try {
+
+            if (StringUtils.isBlank(order[0]) || StringUtils.isBlank(order[1]) || StringUtils.isBlank(order[2]) || StringUtils.isBlank(order[3])) {
+                return "Incomplete Input, Please follow the proper format of TYPE/MODEL/ADDRESS/YOUR NAME";
+            }
+        } catch (Exception ex) {
+            return "Something Went Wrong! Please Check your Inputs :D";
+        }
+
         Battery battery = batteryService.findByModel(Vehicle.valueOf(order[0]), order[1]);
 
         if (battery == null) {
-            return "No Battery for that Type/Model combination";
+            return "No Battery for that TYPE/MODEL combination";
         }
-
-        String[] address = order[2].split(",");
 
         Invoice invoice = new Invoice();
         invoice.setBattery(battery);
         invoice.setTotal(battery.getPrice());
+        invoice.setAddress(order[2]);
+        invoice.setName(order[3]);
+        invoice.paid(false);
 
         GeocodingResult[] results = GeocodingApi.geocode(context, order[2]).await();
+
+        if (results.length == 0) {
+            return "Invalid Address, Please do not use any abbreviation";
+        }
 
         double startLat = results[0].geometry.location.lat;
         double startLng = results[0].geometry.location.lng;
 
-        Location location = new Location();
-        location.setStreetAddress();
-        location.setCity(address[1]);
-        location.setStateProvince(address[2]);
-
-        invoice.setLocation(location);
 
         List<Branch> nearbyBranches = new ArrayList<>();
 
@@ -94,8 +108,12 @@ public class OrderResource {
 
         for ( Branch branch : branches ) {
             double distance = Haversine.distance(startLat, startLng, branch.getLatitude(), branch.getLongitude());
-            if (distance <= 8) {
+            // check if has stock
+            boolean hasStock = branchService.hasStock(branch, battery);
+            if (distance <= 8 && branch.isAvailable() && hasStock ) {
                 nearbyBranches.add(branch);
+                Stock stock = branchService.getStock(branch, battery);
+                stockService.reduceStock(stock);
             }
         }
 
@@ -103,15 +121,13 @@ public class OrderResource {
             return "Oh No!! No Avaiable Nearby Branch. Please try again later :D";
         }
 
-        for ( Branch branch : nearbyBranches ) {
-
-        }
-
         invoice.setBranch(nearbyBranches.get(0));
+
+        branchService.toggleActive(nearbyBranches.get(0));
 
         invoiceRepository.save(invoice);
 
-        return "Order has been received!";
+        return "Your Order is under process! Please patiently wait for your order to arrive";
     }
 
 }

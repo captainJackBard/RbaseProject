@@ -5,9 +5,9 @@
         .module('bubbleBattStoreApp')
         .controller('InvoiceDetailController', InvoiceDetailController);
 
-    InvoiceDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Invoice', 'Location', 'Battery', 'Branch'];
+    InvoiceDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Invoice', 'Battery', 'Branch'];
 
-    function InvoiceDetailController($scope, $rootScope, $stateParams, previousState, entity, Invoice, Location, Battery, Branch) {
+    function InvoiceDetailController($scope, $rootScope, $stateParams, previousState, entity, Invoice, Battery, Branch) {
         var vm = this;
 
         vm.invoice = entity;

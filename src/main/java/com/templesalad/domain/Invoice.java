@@ -27,9 +27,13 @@ public class Invoice implements Serializable {
     @Column(name = "paid", nullable = false)
     private Boolean paid;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Location location;
+    @NotNull
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @ManyToOne
     private Battery battery;
@@ -71,17 +75,30 @@ public class Invoice implements Serializable {
         this.paid = paid;
     }
 
-    public Location getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public Invoice location(Location location) {
-        this.location = location;
+    public Invoice address(String address) {
+        this.address = address;
         return this;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Invoice name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Battery getBattery() {
@@ -136,6 +153,8 @@ public class Invoice implements Serializable {
             "id=" + id +
             ", total='" + total + "'" +
             ", paid='" + paid + "'" +
+            ", address='" + address + "'" +
+            ", name='" + name + "'" +
             '}';
     }
 }

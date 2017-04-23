@@ -2,14 +2,6 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "location",
-            "otherEntityName": "location",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "invoice"
-        },
-        {
             "relationshipType": "many-to-one",
             "relationshipName": "battery",
             "otherEntityName": "battery",
@@ -30,6 +22,20 @@
         {
             "fieldName": "paid",
             "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]

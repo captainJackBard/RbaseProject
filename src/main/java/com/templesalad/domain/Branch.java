@@ -39,7 +39,7 @@ public class Branch implements Serializable {
     @Column(name = "available", nullable = false)
     private Boolean available;
 
-    @OneToMany(mappedBy = "branch")
+    @OneToMany(mappedBy = "branch", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Stock> stocks = new HashSet<>();
 
