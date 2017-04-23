@@ -28,11 +28,13 @@
             <column name="stock_date" type="date">
                 <constraints nullable="false" />
             </column>
-            <column name="battery_id" type="bigint">
-                <constraints unique="true" nullable="true" />
-            </column>
+
             <column name="branch_id" type="bigint">
                 <constraints nullable="true" />
+            </column>
+
+            <column name="battery_id" type="bigint">
+                <constraints nullable="false" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

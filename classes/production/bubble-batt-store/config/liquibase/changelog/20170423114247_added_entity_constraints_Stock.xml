@@ -8,17 +8,17 @@
     -->
     <changeSet id="20170423114247-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="battery_id"
-                                 baseTableName="stock"
-                                 constraintName="fk_stock_battery_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="battery"/>
-
         <addForeignKeyConstraint baseColumnNames="branch_id"
                                  baseTableName="stock"
                                  constraintName="fk_stock_branch_id"
                                  referencedColumnNames="id"
                                  referencedTableName="branch"/>
+
+        <addForeignKeyConstraint baseColumnNames="battery_id"
+                                 baseTableName="stock"
+                                 constraintName="fk_stock_battery_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="battery"/>
 
     </changeSet>
 </databaseChangeLog>

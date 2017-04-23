@@ -80,7 +80,7 @@ public class OrderResource {
         location.setStreetAddress(address[0]);
         location.setCity(address[1]);
         location.setStateProvince(address[2]);
-        location.setPostalCode(address[3]);
+//
 
         GeocodingResult[] results = GeocodingApi.geocode(context, order[2]).await();
 
@@ -90,23 +90,22 @@ public class OrderResource {
 
         invoice.setLocation(location);
 
-        List<Double> distances = new ArrayList<>();
+        List<Branch> nearbyBranches = new ArrayList<>();
 
         List<Branch> branches = branchRepository.findAll();
 
         for ( Branch branch : branches ) {
             double distance = Haversine.distance(startLat, startLng, branch.getLatitude(), branch.getLongitude());
-            distances.add(distance);
+            if (distance <= 8) {
+                nearbyBranches.add(branch);
+            }
         }
 
-        distances = distances.stream()
-            .filter(distance -> distance <= 8)
-            .limit(10)
-            .collect(Collectors.toList());
+        for ( Branch branch : nearbyBranches ) {
+            
+        }
 
-        log.warn("Eto naaa", distances);
-
-        invoice.setBranch(branches.get(0));
+        invoice.setBranch(nearbyBranches.get(0));
 
         invoiceRepository.save(invoice);
 
