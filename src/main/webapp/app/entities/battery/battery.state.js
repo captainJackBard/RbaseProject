@@ -95,12 +95,12 @@
                     resolve: {
                         entity: function () {
                             return {
-                                image: null,
-                                imageContentType: null,
                                 type: null,
                                 model: null,
                                 price: null,
                                 name: null,
+                                image: null,
+                                imageContentType: null,
                                 id: null
                             };
                         }

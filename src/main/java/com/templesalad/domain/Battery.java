@@ -24,14 +24,6 @@ public class Battery implements Serializable {
     private Long id;
 
     @NotNull
-    @Lob
-    @Column(name = "image", nullable = false)
-    private byte[] image;
-
-    @Column(name = "image_content_type", nullable = false)
-    private String imageContentType;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "jhi_type", nullable = false)
     private Vehicle type;
@@ -48,6 +40,13 @@ public class Battery implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
     @OneToOne(mappedBy = "battery")
     @JsonIgnore
     private Stock stock;
@@ -58,32 +57,6 @@ public class Battery implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public Battery image(byte[] image) {
-        this.image = image;
-        return this;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getImageContentType() {
-        return imageContentType;
-    }
-
-    public Battery imageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-        return this;
-    }
-
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
     }
 
     public Vehicle getType() {
@@ -138,6 +111,32 @@ public class Battery implements Serializable {
         this.name = name;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public Battery image(byte[] image) {
+        this.image = image;
+        return this;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public Battery imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+        return this;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
     public Stock getStock() {
         return stock;
     }
@@ -175,12 +174,12 @@ public class Battery implements Serializable {
     public String toString() {
         return "Battery{" +
             "id=" + id +
-            ", image='" + image + "'" +
-            ", imageContentType='" + imageContentType + "'" +
             ", type='" + type + "'" +
             ", model='" + model + "'" +
             ", price='" + price + "'" +
             ", name='" + name + "'" +
+            ", image='" + image + "'" +
+            ", imageContentType='" + imageContentType + "'" +
             '}';
     }
 }

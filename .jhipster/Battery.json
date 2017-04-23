@@ -11,13 +11,6 @@
     ],
     "fields": [
         {
-            "fieldName": "image",
-            "fieldType": "byte[]",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "type",
             "fieldType": "Vehicle",
             "fieldValues": "MOTORBIKE,CAR,JEEP",
@@ -45,11 +38,16 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "image",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         }
     ],
     "changelogDate": "20170423114244",
-    "entityTableName": "battery",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "battery",
+    "pagination": "no"
 }

@@ -19,22 +19,27 @@
             <thead>
                 <tr>
                     <th><span>ID</span></th>
-                    <th><span>Image</span></th>
                     <th><span>Type</span></th>
                     <th><span>Model</span></th>
                     <th><span>Price</span></th>
                     <th><span>Name</span></th>
+                    <th><span>Image</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="battery in vm.batteries track by battery.id">
                     <td><a ui-sref="battery-detail({id:battery.id})">{{battery.id}}</a></td>
-                    <td>{{battery.image}}</td>
                     <td>{{battery.type}}</td>
                     <td>{{battery.model}}</td>
                     <td>{{battery.price}}</td>
                     <td>{{battery.name}}</td>
+                    <td>
+                        <a ng-if="battery.image" ng-click="vm.openFile(battery.imageContentType, battery.image)">
+                            <img data-ng-src="{{'data:' + battery.imageContentType + ';base64,' + battery.image}}" style="max-height: 30px;" alt="battery image"/>
+                        </a>
+                        <span ng-if="battery.image">{{battery.imageContentType}}, {{vm.byteSize(battery.image)}}</span>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
