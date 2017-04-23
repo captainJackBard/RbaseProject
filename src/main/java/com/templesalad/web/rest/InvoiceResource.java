@@ -9,10 +9,13 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +29,7 @@ public class InvoiceResource {
     private final Logger log = LoggerFactory.getLogger(InvoiceResource.class);
 
     private static final String ENTITY_NAME = "invoice";
-        
+
     private final InvoiceRepository invoiceRepository;
 
     public InvoiceResource(InvoiceRepository invoiceRepository) {
@@ -84,7 +87,14 @@ public class InvoiceResource {
     @Timed
     public List<Invoice> getAllInvoices() {
         log.debug("REST request to get all Invoices");
-        List<Invoice> invoices = invoiceRepository.findAll();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+//        List<Invoice> invoices = invoiceRepository.findAll();
+        List<Invoice> invoices = new ArrayList<>();
+        if ( isAdmin ) {
+            invoices = invoiceRepository.findAll();
+        }
+
         return invoices;
     }
 
