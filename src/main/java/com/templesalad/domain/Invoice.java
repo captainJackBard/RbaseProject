@@ -22,7 +22,7 @@ public class Invoice implements Serializable {
     @Column(name = "total")
     private Double total;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(unique = true)
     private Location location;
 
