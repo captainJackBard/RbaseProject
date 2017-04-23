@@ -33,6 +33,7 @@ public class InvoiceService {
         List<Branch> branches = branchRepository.findByUserIsCurrentUser();
         for (Branch branch : branches) {
             invoices.addAll(branch.getInvoices());
+            log.warn("Invoices:", branch.getInvoices());
         }
         return invoices;
     }
