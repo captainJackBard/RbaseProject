@@ -9,6 +9,8 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +29,7 @@ public class BranchResource {
     private final Logger log = LoggerFactory.getLogger(BranchResource.class);
 
     private static final String ENTITY_NAME = "branch";
-        
+
     private final BranchRepository branchRepository;
 
     public BranchResource(BranchRepository branchRepository) {
@@ -85,7 +87,14 @@ public class BranchResource {
     @Timed
     public List<Branch> getAllBranches() {
         log.debug("REST request to get all Branches");
-        List<Branch> branches = branchRepository.findAll();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+        List<Branch> branches;
+        if ( isAdmin ) {
+            branches = branchRepository.findAll();
+        } else {
+            branches = branchRepository.findByUserIsCurrentUser();
+        }
         return branches;
     }
 
