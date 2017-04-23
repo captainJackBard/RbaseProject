@@ -5,6 +5,7 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
+import com.templesalad.Haversine;
 import com.templesalad.domain.Battery;
 import com.templesalad.domain.Branch;
 import com.templesalad.domain.Invoice;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by bobjr on 4/23/17.
@@ -31,6 +34,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class OrderResource {
+
+    private static GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyAOCUiioJ-rKGfB81oyKn98yyubrflEuIs");
 
     private final Logger log = LoggerFactory.getLogger(OrderResource.class);
 
@@ -77,12 +82,29 @@ public class OrderResource {
         location.setStateProvince(address[2]);
         location.setPostalCode(address[3]);
 
-        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyAOCUiioJ-rKGfB81oyKn98yyubrflEuIs");
         GeocodingResult[] results = GeocodingApi.geocode(context, order[2]).await();
+
+        double startLat = results[0].geometry.location.lat;
+        double startLng = results[0].geometry.location.lng;
+
 
         invoice.setLocation(location);
 
+        List<Double> distances = new ArrayList<>();
+
         List<Branch> branches = branchRepository.findAll();
+
+        for ( Branch branch : branches ) {
+            double distance = Haversine.distance(startLat, startLng, branch.getLatitude(), branch.getLongitude());
+            distances.add(distance);
+        }
+
+        distances = distances.stream()
+            .filter(distance -> distance <= 8)
+            .limit(10)
+            .collect(Collectors.toList());
+
+        log.warn("Eto naaa", distances);
 
         invoice.setBranch(branches.get(0));
 

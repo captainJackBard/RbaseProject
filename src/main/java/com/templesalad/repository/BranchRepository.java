@@ -3,6 +3,7 @@ package com.templesalad.repository;
 import com.templesalad.domain.Branch;
 
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
