@@ -13,6 +13,14 @@
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.branch.id" readonly />
         </div>
+
+        <div map-lazy-load="https://maps.google.com/maps/api/js"
+            map-lazy-load-param="{{vm.googleMapKey}}">
+            <ng-map center="{{vm.position}}" zoom="14">
+                <marker position="{{vm.position}}" draggable="true" on-drag="vm.markerDrag(event)"></marker>
+            </ng-map>
+        </div>
+
         <div class="form-group">
             <label class="control-label" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"

@@ -3,6 +3,7 @@
 
     angular
         .module('bubbleBattStoreApp', [
+            'ngMap',
             'ngStorage',
             'ngResource',
             'ngCookies',
