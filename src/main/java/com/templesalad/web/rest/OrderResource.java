@@ -102,7 +102,7 @@ public class OrderResource {
         }
 
         for ( Branch branch : nearbyBranches ) {
-            
+
         }
 
         invoice.setBranch(nearbyBranches.get(0));

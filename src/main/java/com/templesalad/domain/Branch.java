@@ -35,6 +35,10 @@ public class Branch implements Serializable {
     @Column(name = "longitude", nullable = false)
     private Double longitude;
 
+    @NotNull
+    @Column(name = "available", nullable = false)
+    private Boolean available;
+
     @OneToMany(mappedBy = "branch")
     @JsonIgnore
     private Set<Stock> stocks = new HashSet<>();
@@ -91,6 +95,19 @@ public class Branch implements Serializable {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public Boolean isAvailable() {
+        return available;
+    }
+
+    public Branch available(Boolean available) {
+        this.available = available;
+        return this;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public Set<Stock> getStocks() {
@@ -183,6 +200,7 @@ public class Branch implements Serializable {
             ", name='" + name + "'" +
             ", latitude='" + latitude + "'" +
             ", longitude='" + longitude + "'" +
+            ", available='" + available + "'" +
             '}';
     }
 }

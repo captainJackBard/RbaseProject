@@ -98,6 +98,7 @@
                                 name: null,
                                 latitude: null,
                                 longitude: null,
+                                available: false,
                                 id: null
                             };
                         }

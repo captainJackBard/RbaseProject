@@ -46,6 +46,9 @@ public class BranchResourceIntTest {
     private static final Double DEFAULT_LONGITUDE = 1D;
     private static final Double UPDATED_LONGITUDE = 2D;
 
+    private static final Boolean DEFAULT_AVAILABLE = false;
+    private static final Boolean UPDATED_AVAILABLE = true;
+
     @Autowired
     private BranchRepository branchRepository;
 
@@ -85,7 +88,8 @@ public class BranchResourceIntTest {
         Branch branch = new Branch()
             .name(DEFAULT_NAME)
             .latitude(DEFAULT_LATITUDE)
-            .longitude(DEFAULT_LONGITUDE);
+            .longitude(DEFAULT_LONGITUDE)
+            .available(DEFAULT_AVAILABLE);
         return branch;
     }
 
@@ -112,6 +116,7 @@ public class BranchResourceIntTest {
         assertThat(testBranch.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testBranch.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
         assertThat(testBranch.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
+        assertThat(testBranch.isAvailable()).isEqualTo(DEFAULT_AVAILABLE);
     }
 
     @Test
@@ -189,6 +194,24 @@ public class BranchResourceIntTest {
 
     @Test
     @Transactional
+    public void checkAvailableIsRequired() throws Exception {
+        int databaseSizeBeforeTest = branchRepository.findAll().size();
+        // set the field null
+        branch.setAvailable(null);
+
+        // Create the Branch, which fails.
+
+        restBranchMockMvc.perform(post("/api/branches")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(branch)))
+            .andExpect(status().isBadRequest());
+
+        List<Branch> branchList = branchRepository.findAll();
+        assertThat(branchList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllBranches() throws Exception {
         // Initialize the database
         branchRepository.saveAndFlush(branch);
@@ -200,7 +223,8 @@ public class BranchResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(branch.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
-            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())));
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].available").value(hasItem(DEFAULT_AVAILABLE.booleanValue())));
     }
 
     @Test
@@ -216,7 +240,8 @@ public class BranchResourceIntTest {
             .andExpect(jsonPath("$.id").value(branch.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()))
-            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()));
+            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
+            .andExpect(jsonPath("$.available").value(DEFAULT_AVAILABLE.booleanValue()));
     }
 
     @Test
@@ -239,7 +264,8 @@ public class BranchResourceIntTest {
         updatedBranch
             .name(UPDATED_NAME)
             .latitude(UPDATED_LATITUDE)
-            .longitude(UPDATED_LONGITUDE);
+            .longitude(UPDATED_LONGITUDE)
+            .available(UPDATED_AVAILABLE);
 
         restBranchMockMvc.perform(put("/api/branches")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -253,6 +279,7 @@ public class BranchResourceIntTest {
         assertThat(testBranch.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testBranch.getLatitude()).isEqualTo(UPDATED_LATITUDE);
         assertThat(testBranch.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
+        assertThat(testBranch.isAvailable()).isEqualTo(UPDATED_AVAILABLE);
     }
 
     @Test
