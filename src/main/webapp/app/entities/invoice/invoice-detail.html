@@ -8,6 +8,10 @@
         <dd>
             <span>{{vm.invoice.total}}</span>
         </dd>
+        <dt><span>Paid</span></dt>
+        <dd>
+            <span>{{vm.invoice.paid}}</span>
+        </dd>
         <dt><span>Location</span></dt>
         <dd>
             <a ui-sref="location-detail({id:vm.invoice.location.id})">{{vm.invoice.location.id}}</a>

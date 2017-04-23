@@ -40,6 +40,9 @@ public class InvoiceResourceIntTest {
     private static final Double DEFAULT_TOTAL = 1D;
     private static final Double UPDATED_TOTAL = 2D;
 
+    private static final Boolean DEFAULT_PAID = false;
+    private static final Boolean UPDATED_PAID = true;
+
     @Autowired
     private InvoiceRepository invoiceRepository;
 
@@ -77,7 +80,8 @@ public class InvoiceResourceIntTest {
      */
     public static Invoice createEntity(EntityManager em) {
         Invoice invoice = new Invoice()
-            .total(DEFAULT_TOTAL);
+            .total(DEFAULT_TOTAL)
+            .paid(DEFAULT_PAID);
         return invoice;
     }
 
@@ -102,6 +106,7 @@ public class InvoiceResourceIntTest {
         assertThat(invoiceList).hasSize(databaseSizeBeforeCreate + 1);
         Invoice testInvoice = invoiceList.get(invoiceList.size() - 1);
         assertThat(testInvoice.getTotal()).isEqualTo(DEFAULT_TOTAL);
+        assertThat(testInvoice.isPaid()).isEqualTo(DEFAULT_PAID);
     }
 
     @Test
@@ -125,6 +130,24 @@ public class InvoiceResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPaidIsRequired() throws Exception {
+        int databaseSizeBeforeTest = invoiceRepository.findAll().size();
+        // set the field null
+        invoice.setPaid(null);
+
+        // Create the Invoice, which fails.
+
+        restInvoiceMockMvc.perform(post("/api/invoices")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(invoice)))
+            .andExpect(status().isBadRequest());
+
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        assertThat(invoiceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllInvoices() throws Exception {
         // Initialize the database
         invoiceRepository.saveAndFlush(invoice);
@@ -134,7 +157,8 @@ public class InvoiceResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(invoice.getId().intValue())))
-            .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.doubleValue())));
+            .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.doubleValue())))
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())));
     }
 
     @Test
@@ -148,7 +172,8 @@ public class InvoiceResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(invoice.getId().intValue()))
-            .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL.doubleValue()));
+            .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL.doubleValue()))
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()));
     }
 
     @Test
@@ -169,7 +194,8 @@ public class InvoiceResourceIntTest {
         // Update the invoice
         Invoice updatedInvoice = invoiceRepository.findOne(invoice.getId());
         updatedInvoice
-            .total(UPDATED_TOTAL);
+            .total(UPDATED_TOTAL)
+            .paid(UPDATED_PAID);
 
         restInvoiceMockMvc.perform(put("/api/invoices")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -181,6 +207,7 @@ public class InvoiceResourceIntTest {
         assertThat(invoiceList).hasSize(databaseSizeBeforeUpdate);
         Invoice testInvoice = invoiceList.get(invoiceList.size() - 1);
         assertThat(testInvoice.getTotal()).isEqualTo(UPDATED_TOTAL);
+        assertThat(testInvoice.isPaid()).isEqualTo(UPDATED_PAID);
     }
 
     @Test

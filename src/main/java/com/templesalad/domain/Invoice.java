@@ -2,6 +2,7 @@ package com.templesalad.domain;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -22,7 +23,11 @@ public class Invoice implements Serializable {
     @Column(name = "total")
     private Double total;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @NotNull
+    @Column(name = "paid", nullable = false)
+    private Boolean paid;
+
+    @OneToOne
     @JoinColumn(unique = true)
     private Location location;
 
@@ -51,6 +56,19 @@ public class Invoice implements Serializable {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Boolean isPaid() {
+        return paid;
+    }
+
+    public Invoice paid(Boolean paid) {
+        this.paid = paid;
+        return this;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
     }
 
     public Location getLocation() {
@@ -117,6 +135,7 @@ public class Invoice implements Serializable {
         return "Invoice{" +
             "id=" + id +
             ", total='" + total + "'" +
+            ", paid='" + paid + "'" +
             '}';
     }
 }

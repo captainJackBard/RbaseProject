@@ -26,11 +26,18 @@
         {
             "fieldName": "total",
             "fieldType": "Double"
+        },
+        {
+            "fieldName": "paid",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20170423114246",
-    "entityTableName": "invoice",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "invoice",
+    "pagination": "no"
 }

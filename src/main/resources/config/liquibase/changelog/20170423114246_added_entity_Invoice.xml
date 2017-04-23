@@ -24,6 +24,10 @@
             <column name="total" type="double">
                 <constraints nullable="true" />
             </column>
+
+            <column name="paid" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <column name="location_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>

@@ -76,17 +76,15 @@ public class OrderResource {
         invoice.setBattery(battery);
         invoice.setTotal(battery.getPrice());
 
-        Location location = new Location();
-        location.setStreetAddress(address[0]);
-        location.setCity(address[1]);
-        location.setStateProvince(address[2]);
-//
-
         GeocodingResult[] results = GeocodingApi.geocode(context, order[2]).await();
 
         double startLat = results[0].geometry.location.lat;
         double startLng = results[0].geometry.location.lng;
 
+        Location location = new Location();
+        location.setStreetAddress();
+        location.setCity(address[1]);
+        location.setStateProvince(address[2]);
 
         invoice.setLocation(location);
 
@@ -99,6 +97,10 @@ public class OrderResource {
             if (distance <= 8) {
                 nearbyBranches.add(branch);
             }
+        }
+
+        if ( nearbyBranches.isEmpty() ) {
+            return "Oh No!! No Avaiable Nearby Branch. Please try again later :D";
         }
 
         for ( Branch branch : nearbyBranches ) {

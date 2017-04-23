@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="invoice.new" has-authority="ROLE_ADMIN">
+                <button class="btn btn-primary" ui-sref="invoice.new" has-authority="ROLE_ADMIN" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Invoice
@@ -20,6 +20,7 @@
                 <tr>
                     <th><span>ID</span></th>
                     <th><span>Total</span></th>
+                    <th><span>Paid</span></th>
                     <th><span>Location</span></th>
                     <th><span>Battery</span></th>
                     <th><span>Branch</span></th>
@@ -30,6 +31,7 @@
                 <tr ng-repeat="invoice in vm.invoices track by invoice.id">
                     <td><a ui-sref="invoice-detail({id:invoice.id})">{{invoice.id}}</a></td>
                     <td>{{invoice.total}}</td>
+                    <td>{{invoice.paid}}</td>
                     <td>
                         <a ui-sref="location-detail({id:invoice.location.id})">{{invoice.location.id}}</a>
                     </td>

@@ -96,6 +96,7 @@
                         entity: function () {
                             return {
                                 total: null,
+                                paid: false,
                                 id: null
                             };
                         }
