@@ -43,6 +43,11 @@
       "main": [
         "dist/css/bootstrap.css"
       ]
+    },
+    "ngmap": {
+      "dependencies": {
+        "angular": "1.5.8"
+      }
     }
   },
   "resolutions": {
