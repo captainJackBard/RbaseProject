@@ -1,9 +1,22 @@
 
 <div>
-    <h2><span>Battery</span> {{vm.battery.id}}</h2>
+    <h2><span>Battery</span> {{vm.battery.name}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
+    <div class="alert alert-info">
+        <h1>Order this product!</h1>
+        <h3>TEXT {{vm.battery.type}}/{{vm.battery.model}}/&lt;YOUR ADDRESS&gt;/&lt;YOUR NAME&gt; TO 09-BUBBLE-BAT </h3>
+    </div>
     <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Image</span></dt>
+        <dd>
+            <div ng-if="vm.battery.image">
+                <a ng-click="vm.openFile(vm.battery.imageContentType, vm.battery.image)">
+                    <img data-ng-src="{{'data:' + vm.battery.imageContentType + ';base64,' + vm.battery.image}}" style="max-width: 100%;" alt="battery image"/>
+                </a>
+                {{vm.battery.imageContentType}}, {{vm.byteSize(vm.battery.image)}}
+            </div>
+        </dd>
         <dt><span>Type</span></dt>
         <dd>
             <span>{{vm.battery.type}}</span>
@@ -14,20 +27,11 @@
         </dd>
         <dt><span>Price</span></dt>
         <dd>
-            <span>{{vm.battery.price}}</span>
+            <span>₱{{vm.battery.price}}</span>
         </dd>
         <dt><span>Name</span></dt>
         <dd>
             <span>{{vm.battery.name}}</span>
-        </dd>
-        <dt><span>Image</span></dt>
-        <dd>
-            <div ng-if="vm.battery.image">
-                <a ng-click="vm.openFile(vm.battery.imageContentType, vm.battery.image)">
-                    <img data-ng-src="{{'data:' + vm.battery.imageContentType + ';base64,' + vm.battery.image}}" style="max-width: 100%;" alt="battery image"/>
-                </a>
-                {{vm.battery.imageContentType}}, {{vm.byteSize(vm.battery.image)}}
-            </div>
         </dd>
     </dl>
 
@@ -37,7 +41,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
     </button>
 
-    <button type="button" ui-sref="battery-detail.edit({id:vm.battery.id})" class="btn btn-primary">
+    <button type="button" ui-sref="battery-detail.edit({id:vm.battery.id})" class="btn btn-primary" has-authority="ROLE_ADMIN">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-sm-down"> Edit</span>
     </button>
