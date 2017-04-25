@@ -10,14 +10,14 @@
     function stateConfig($stateProvider) {
         $stateProvider.state('home', {
             parent: 'app',
-            url: '/qwe',
+            url: '/',
             data: {
                 authorities: []
             },
             views: {
                 'content@': {
                     templateUrl: 'app/home/home.html',
-                    controller: 'HomeController',
+                    controller: 'BatteryController',
                     controllerAs: 'vm'
                 }
             }

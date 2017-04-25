@@ -1,0 +1,17 @@
+<div class="col-md-3 col-sm-6">
+    <span class="thumbnail">
+        <img data-ng-src="{{'data:' + battery.imageContentType + ';base64,' + battery.image}}" style="max-width: 100%;" alt="battery image">
+        <h4>{{battery.name}}</h4>
+        <h5>For Vehicle Type: {{battery.type}} </h5>
+        <h5>For Vehicle Model: {{battery.model}} </h5>
+        <hr class="line">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <p class="price">₱{{battery.price}}</p>
+            </div>
+            <div class="col-md-6 col-sm-6">
+             <a ui-sref="battery-detail({id: battery.id})"> <button class="btn btn-info right" >ORDER</button></a>
+            </div>
+        </div>
+    </span>
+</div>
